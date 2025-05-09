@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title th:text="${noticia.titulo} + ' - Portal de Noticias'">Detalle de Noticia - Portal de Noticias</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Swiper para galería de imágenes -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-gray-800">Portal de Noticias</h1>
+                <div>
+                    <a th:href="@{/noticias}" class="text-blue-600 hover:text-blue-800 mr-4">
+                        <i class="fas fa-arrow-left mr-1"></i> Volver a noticias
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <!-- Contenedor principal -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Cabecera de la noticia -->
+            <div class="relative">
+                <!-- Imagen principal -->
+                <div class="h-64 md:h-96 bg-gray-200 relative">
+                    <img th:if="${noticia.fotos != null && !noticia.fotos.empty}" 
+                         th:src="${noticia.fotos[0].url}" 
+                         class="w-full h-full object-cover" 
+                         th:alt="${noticia.fotos[0].descripcion}">
+                    <div th:unless="${noticia.fotos != null && !noticia.fotos.empty}" 
+                         class="w-full h-full flex items-center justify-center bg-gray-300">
+                        <i class="fas fa-newspaper text-6xl text-gray-500"></i>
+                    </div>
+                    
+                    <!-- Overlay con tema y fecha -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
+                        <div class="flex justify-between items-center text-white">
+                            <span class="px-3 py-1 bg-blue-600 bg-opacity-90 rounded-full text-xs font-semibold" 
+                                  th:text="${noticia.tema}">TEMA</span>
+                            <span class="text-sm" th:text="${noticia.fechaPublicacion}">FECHA</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Título y descripción -->
+                <div class="p-6 border-b">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-4" th:text="${noticia.titulo}">
+                        Título de la noticia
+                    </h1>
+                    <p class="text-lg text-gray-600 italic" th:text="${noticia.descripcion}">
+                        Descripción breve de la noticia que resume el contenido principal...
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Contenido principal -->
+            <div class="p-6">
+                <!-- Cuerpo de la noticia -->
+                <div class="prose max-w-none mb-10" th:utext="${noticia.cuerpo}">
+                    <!-- El contenido HTML del cuerpo se renderizará aquí -->
+                    <p>Contenido de la noticia...</p>
+                </div>
+                
+                <!-- Galería de imágenes (si hay más de una) -->
+                <div th:if="${noticia.fotos != null && noticia.fotos.size() > 1}" class="mb-10">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Galería de imágenes</h3>
+                    
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div th:each="foto, status : ${noticia.fotos}" class="swiper-slide">
+                                <div class="relative pb-[56.25%] bg-gray-200 rounded-lg overflow-hidden">
+                                    <img th:src="${foto.url}" th:alt="${foto.descripcion}" 
+                                         class="absolute inset-0 w-full h-full object-cover">
+                                </div>
+                                <p th:if="${foto.descripcion}" class="mt-2 text-sm text-gray-600 text-center" 
+                                   th:text="${foto.descripcion}">Descripción de la imagen</p>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination mt-4"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                
+                <!-- Ubicación (si existe) -->
+                <div th:if="${noticia.ubicacion != null && noticia.ubicacion.direccion != null && !noticia.ubicacion.direccion.isEmpty()}" 
+                     class="border-t pt-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Ubicación</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Información de la ubicación -->
+                        <div class="md:col-span-1">
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <h4 class="font-medium text-gray-700 mb-2">Dirección:</h4>
+                                <p class="text-gray-600 mb-4" th:text="${noticia.ubicacion.direccion}">
+                                    Dirección completa de la ubicación
+                                </p>
+                                
+                                <h4 class="font-medium text-gray-700 mb-2">Coordenadas:</h4>
+                                <p class="text-gray-600">
+                                    <span class="block" th:text="'Latitud: ' + ${noticia.ubicacion.latitud}">Latitud: 0.0000</span>
+                                    <span class="block" th:text="'Longitud: ' + ${noticia.ubicacion.longitud}">Longitud: 0.0000</span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Mapa (placeholder para OpenStreetMap) -->
+                        <div class="md:col-span-2">
+                            <div id="map" class="h-64 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
+                                <div class="text-center p-4">
+                                    <i class="fas fa-map-marker-alt text-4xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-600">Mapa no disponible en este momento</p>
+                                    <p class="text-sm text-gray-500 mt-2">
+                                        Las coordenadas están listas para ser visualizadas con OpenStreetMap
+                                    </p>
+                                    
+                                    <!-- Datos para el mapa (ocultos) -->
+                                    <div id="map-data" 
+                                         th:data-lat="${noticia.ubicacion.latitud}" 
+                                         th:data-lng="${noticia.ubicacion.longitud}" 
+                                         th:data-address="${noticia.ubicacion.direccion}" 
+                                         class="hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pie de la noticia con acciones -->
+            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-4">
+                        <!-- Botones de compartir (funcionalidad a implementar) -->
+                        <button class="text-gray-600 hover:text-blue-600">
+                            <i class="fab fa-facebook-f mr-1"></i> Compartir
+                        </button>
+                        <button class="text-gray-600 hover:text-blue-400">
+                            <i class="fab fa-twitter mr-1"></i> Tweet
+                        </button>
+                    </div>
+                    
+                    <!-- Acciones de administrador -->
+                    <div sec:authorize="hasRole('ADMINISTRADOR')">
+                        <a th:href="@{/noticias/eliminar/{id}(id=${noticia.id})}" 
+                           class="text-red-600 hover:text-red-800" 
+                           onclick="return confirm('¿Estás seguro de eliminar esta noticia?')">
+                            <i class="fas fa-trash mr-1"></i> Eliminar noticia
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <div class="text-center text-sm">
+                <p>&copy; 2025 Portal de Noticias. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar el carrusel de imágenes
+            const swiper = new Swiper(".mySwiper", {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                loop: true,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    },
+                },
+            });
+            
+            // Código para inicializar OpenStreetMap (comentado para implementación futura)
+            /*
+            const mapData = document.getElementById('map-data');
+            if (mapData) {
+                const lat = parseFloat(mapData.getAttribute('data-lat'));
+                const lng = parseFloat(mapData.getAttribute('data-lng'));
+                const address = mapData.getAttribute('data-address');
+                
+                // Aquí iría el código para inicializar OpenStreetMap
+                // Por ejemplo:
+                // const map = L.map('map').setView([lat, lng], 13);
+                // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                // L.marker([lat, lng]).addTo(map).bindPopup(address).openPopup();
+            }
+            */
+        });
+    </script>
+    
+    <!-- Estilos para el contenido de la noticia -->
+    <style>
+        /* Estilos básicos para el contenido HTML del cuerpo de la noticia */
+        .prose {
+            color: #374151;
+            max-width: 65ch;
+            margin: 0 auto;
+        }
+        .prose p {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+        }
+        .prose h1, .prose h2, .prose h3, .prose h4 {
+            color: #111827;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 1em;
+        }
+        .prose h1 {
+            font-size: 2.25em;
+            line-height: 1.1111111;
+        }
+        .prose h2 {
+            font-size: 1.5em;
+            line-height: 1.3333333;
+        }
+        .prose h3 {
+            font-size: 1.25em;
+            line-height: 1.6;
+        }
+        .prose a {
+            color: #2563eb;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .prose ul, .prose ol {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+            padding-left: 1.625em;
+        }
+        .prose ul {
+            list-style-type: disc;
+        }
+        .prose ol {
+            list-style-type: decimal;
+        }
+        .prose li {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        .prose blockquote {
+            font-weight: 500;
+            font-style: italic;
+            color: #111827;
+            border-left-width: 0.25rem;
+            border-left-color: #e5e7eb;
+            padding-left: 1rem;
+            margin-top: 1.6em;
+            margin-bottom: 1.6em;
+        }
+        .prose img {
+            margin-top: 2em;
+            margin-bottom: 2em;
+        }
+        .prose code {
+            color: #111827;
+            font-weight: 600;
+            font-size: 0.875em;
+        }
+        .prose pre {
+            color: #e5e7eb;
+            background-color: #1f2937;
+            overflow-x: auto;
+            font-size: 0.875em;
+            line-height: 1.7142857;
+            margin-top: 1.7142857em;
+            margin-bottom: 1.7142857em;
+            border-radius: 0.375rem;
+            padding: 0.8571429em 1.1428571em;
+        }
+    </style>
+</body>
+</html>
