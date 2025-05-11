@@ -1,6 +1,7 @@
 package com.noticias.portal.controllers;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,7 +63,9 @@ public class NoticiaController {
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping("/guardar")
     public String guardarNoticia(@ModelAttribute("noticia") NoticiaDTO noticiaDTO) {
-        noticiaDTO.setFechaPublicacion(LocalDateTime.now().toString());
+        // Format the date in the format expected by the mapper (dd/MM/yyyy HH:mm)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        noticiaDTO.setFechaPublicacion(LocalDateTime.now().format(formatter));
         noticiaService.guardarDTO(noticiaDTO);
         return "redirect:/noticias";
     }
