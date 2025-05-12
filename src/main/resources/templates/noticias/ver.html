@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Swiper para galería de imágenes -->
     <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
     <header class="bg-white shadow-md">
@@ -111,14 +113,14 @@
                             </div>
                         </div>
                         
-                        <!-- Mapa (placeholder para OpenStreetMap) -->
+                        <!-- Mapa (placeholder para Leaflet) -->
                         <div class="md:col-span-2">
                             <div id="map" class="h-64 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
                                 <div class="text-center p-4">
                                     <i class="fas fa-map-marker-alt text-4xl text-gray-400 mb-2"></i>
                                     <p class="text-gray-600">Mapa no disponible en este momento</p>
                                     <p class="text-sm text-gray-500 mt-2">
-                                        Las coordenadas están listas para ser visualizadas con OpenStreetMap
+                                        Las coordenadas están listas para ser visualizadas Leaflet
                                     </p>
                                     
                                     <!-- Datos para el mapa (ocultos) -->
@@ -170,6 +172,8 @@
 
     <!-- Scripts -->
     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Inicializar el carrusel de imágenes
@@ -198,21 +202,26 @@
                 },
             });
             
-            // Código para inicializar OpenStreetMap (comentado para implementación futura)
-            /*
+            // Inicializar Leaflet para mostrar el mapa si hay datos de ubicación
             const mapData = document.getElementById('map-data');
             if (mapData) {
                 const lat = parseFloat(mapData.getAttribute('data-lat'));
                 const lng = parseFloat(mapData.getAttribute('data-lng'));
                 const address = mapData.getAttribute('data-address');
-                
-                // Aquí iría el código para inicializar OpenStreetMap
-                // Por ejemplo:
-                // const map = L.map('map').setView([lat, lng], 13);
-                // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-                // L.marker([lat, lng]).addTo(map).bindPopup(address).openPopup();
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    // Limpiar el contenido placeholder
+                    const mapContainer = document.getElementById('map');
+                    mapContainer.innerHTML = '';
+                    // Inicializar Leaflet
+                    const map = L.map('map').setView([lat, lng], 15);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap'
+                    }).addTo(map);
+                    const marker = L.marker([lat, lng]).addTo(map);
+                    marker.bindPopup(address).openPopup();
+                }
             }
-            */
         });
     </script>
     
