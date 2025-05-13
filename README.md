@@ -46,19 +46,19 @@ La aplicación estará disponible en http://localhost:8080
 - Visitante: Puede consultar, filtrar y buscar noticias. Si la noticia tiene ubicación, puede visualizarla en un mapa interactivo.
 
 ### Integración con servicios externos
-1. Visualización de mapas con Leaflet.js
+#### 1. Visualización de mapas con Leaflet.js
 Cuando una noticia tiene una ubicación asociada, en la vista de detalle se muestra un mapa interactivo usando Leaflet.js. El mapa marca la posición de la noticia y permite al usuario visualizar el entorno.
 - El código de integración se encuentra en la plantilla correspondiente (por ejemplo, noticias/ver.html).
 - Leaflet se carga desde CDN y utiliza las coordenadas almacenadas en la base de datos.
 
-2. Normalización de direcciones con USIG
+#### 2. Normalización de direcciones con USIG
 - Patrón de diseño: Controller-Service
-Para desacoplar la lógica de negocio de la lógica de presentación y facilitar la integración con servicios externos, se utiliza el patrón Controller-Service:
+- Para desacoplar la lógica de negocio de la lógica de presentación y facilitar la integración con servicios externos, se utiliza el patrón Controller-Service:
 
 - DireccionController:
-Expone un endpoint REST que recibe una dirección (por ejemplo, desde el formulario de creación de noticia). Este controller es responsable de recibir la solicitud del frontend y delegar la normalización de la dirección al service correspondiente.
+- Expone un endpoint REST que recibe una dirección (por ejemplo, desde el formulario de creación de noticia). Este controller es responsable de recibir la solicitud del frontend y delegar la normalización de la dirección al service correspondiente.
 - DireccionService:
-Contiene la lógica para conectarse con el servicio externo USIG. Utiliza un cliente HTTP (por ejemplo, RestTemplate de Spring) para enviar la dirección a la API de USIG y procesar la respuesta, extrayendo la dirección normalizada y las coordenadas geográficas.
+- Contiene la lógica para conectarse con el servicio externo USIG. Utiliza un cliente HTTP (por ejemplo, RestTemplate de Spring) para enviar la dirección a la API de USIG y procesar la respuesta, extrayendo la dirección normalizada y las coordenadas geográficas.
 - Flujo típico:
 1. El administrador ingresa una dirección en el formulario de noticia.
 2. El frontend envía la dirección al endpoint del DireccionController.
@@ -93,19 +93,3 @@ El acceso a la administración de noticias está protegido mediante autenticaci�
 - El sistema utiliza roles para distinguir entre administradores y vecinos.
 - Los detalles de usuario (UserDetails) se construyen a partir de la entidad Cuenta y se asignan los roles correspondientes.
 
-## Estructura del proyecto
-
-portal/
-├── src/
-│   ├── main/
-│   │   ├── java/com/noticias/portal/         # Código Java (Spring Boot)
-│   │   │   ├── controller/                   # Incluye DireccionController, NoticiasController
-│   │   │   ├── service/                      # Incluye DireccionService, CuentaService, NoticiaService
-│   │   │   ├── repositories/                 # Incluye CuentaRepository, NoticiaRepository
-│   │   │   ├── models/                       # Incluye Cuenta, Noticia
-│   │   ├── resources/templates/noticias/     # Vistas Thymeleaf
-│   │   └── resources/static/                 # Recursos estáticos (JS, CSS)
-├── mvnw, mvnw.cmd                            # Maven Wrapper
-├── pom.xml                                   # Dependencias Maven
-├── README.md                                 # Documentación del proyecto
-├── ejemplos.txt                              # Ejemplos de creacion de noticia
