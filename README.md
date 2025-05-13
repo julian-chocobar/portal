@@ -66,7 +66,7 @@ Contiene la lógica para conectarse con el servicio externo USIG. Utiliza un cli
 4. El DireccionService consulta el servicio USIG, recibe la dirección normalizada y las coordenadas.
 5. El resultado se almacena junto con la noticia y se utiliza para mostrar la ubicación en el mapa.
 
-# Ejemplo de endpoint para normalización:
+## Ejemplo de endpoint para normalización:
 ```http
 POST /api/direccion/normalizar
 Content-Type: application/json
@@ -76,7 +76,7 @@ Content-Type: application/json
 }
 ```
 
-# Ejemplo de respuesta:
+## Ejemplo de respuesta:
 ```json
 {
   "direccionNormalizada": "Av. Corrientes 1234, Ciudad Autónoma de Buenos Aires",
@@ -85,15 +85,15 @@ Content-Type: application/json
 }
 ```
 
-# Seguridad y autenticación
+## Seguridad y autenticación
 El acceso a la administración de noticias está protegido mediante autenticación basada en Spring Security. Solo los usuarios autenticados con rol de administrador pueden crear o eliminar noticias.
 
-# Implementación propia de autenticación
+## Implementación propia de autenticación
 - Se implementa la interfaz UserDetailsService mediante la clase CuentaService, que se encarga de cargar los usuarios desde la base de datos (MongoDB) y proveer los detalles necesarios para la autenticación.
 - El sistema utiliza roles para distinguir entre administradores y vecinos.
 - Los detalles de usuario (UserDetails) se construyen a partir de la entidad Cuenta y se asignan los roles correspondientes.
 
-# Estructura del proyecto
+## Estructura del proyecto
 
 portal/
 ├── src/
