@@ -30,12 +30,22 @@
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
             <!-- Cabecera de la noticia -->
             <div class="relative">
-                <!-- Imagen principal -->
+                <!-- Slideshow de imágenes -->
                 <div class="h-64 md:h-96 bg-gray-200 relative">
-                    <img th:if="${noticia.fotos != null && !noticia.fotos.empty}" 
-                         th:src="${noticia.fotos[0].url}" 
-                         class="w-full h-full object-cover" 
-                         th:alt="${noticia.fotos[0].descripcion}">
+                    <!-- Si hay imágenes, mostrar el slideshow -->
+                    <div th:if="${noticia.fotos != null && !noticia.fotos.empty}" class="swiper headerSwiper h-full">
+                        <div class="swiper-wrapper h-full">
+                            <div th:each="foto : ${noticia.fotos}" class="swiper-slide h-full">
+                                <img th:src="${foto.url}" th:alt="${foto.descripcion}" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <!-- Controles de navegación -->
+                        <div class="swiper-button-next text-white"></div>
+                        <div class="swiper-button-prev text-white"></div>
+                        <!-- Paginación (opcional) -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <!-- Si no hay imágenes, mostrar placeholder -->
                     <div th:unless="${noticia.fotos != null && !noticia.fotos.empty}" 
                          class="w-full h-full flex items-center justify-center bg-gray-300">
                         <i class="fas fa-newspaper text-6xl text-gray-500"></i>
@@ -70,26 +80,7 @@
                     <p>Contenido de la noticia...</p>
                 </div>
                 
-                <!-- Galería de imágenes (si hay más de una) -->
-                <div th:if="${noticia.fotos != null && noticia.fotos.size() > 1}" class="mb-10">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Galería de imágenes</h3>
-                    
-                    <div class="swiper mySwiper">
-                        <div class="swiper-wrapper">
-                            <div th:each="foto, status : ${noticia.fotos}" class="swiper-slide">
-                                <div class="relative pb-[56.25%] bg-gray-200 rounded-lg overflow-hidden">
-                                    <img th:src="${foto.url}" th:alt="${foto.descripcion}" 
-                                         class="absolute inset-0 w-full h-full object-cover">
-                                </div>
-                                <p th:if="${foto.descripcion}" class="mt-2 text-sm text-gray-600 text-center" 
-                                   th:text="${foto.descripcion}">Descripción de la imagen</p>
-                            </div>
-                        </div>
-                        <div class="swiper-pagination mt-4"></div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                </div>
+                <!-- La galería de imágenes ha sido reemplazada por el slideshow en la cabecera -->
                 
                 <!-- Ubicación (si existe) -->
                 <div th:if="${noticia.ubicacion != null && noticia.ubicacion.direccion != null && !noticia.ubicacion.direccion.isEmpty()}" 
@@ -176,11 +167,19 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar el carrusel de imágenes
-            const swiper = new Swiper(".mySwiper", {
+            // Inicializar el slideshow de la cabecera
+            const headerSwiper = new Swiper(".headerSwiper", {
                 slidesPerView: 1,
-                spaceBetween: 30,
+                spaceBetween: 0,
                 loop: true,
+                effect: "fade",  // Efecto de transición suave
+                fadeEffect: {
+                    crossFade: true
+                },
+                autoplay: {
+                    delay: 5000,  // Cambio automático cada 5 segundos (opcional)
+                    disableOnInteraction: false,
+                },
                 pagination: {
                     el: ".swiper-pagination",
                     clickable: true,
@@ -188,17 +187,6 @@
                 navigation: {
                     nextEl: ".swiper-button-next",
                     prevEl: ".swiper-button-prev",
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 1,
-                    },
-                    768: {
-                        slidesPerView: 2,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                    },
                 },
             });
             
