@@ -86,7 +86,7 @@ public class PortalApplication {
     + "<b>Próximo desafío:</b> Los organizadores anunciaron que para octubre planean una 'Carrera Nocturna con Luces LED', buscando repetir el éxito de esta jornada que ya se consolida como tradición barrial.";
            
             String descripcionArte = "La cultura florece en el centro comunitario. 15 artistas emergentes exponen obras que fusionan técnicas tradicionales con innovación digital en una exposición gratuita que promete ser el evento cultural de la temporada.";
-            String cuerpoArte = "El Centro Cultural Municipal inauguró anoche 'Raíces Contemporáneas', una impactante muestra que reúne el trabajo de 15 talentos locales seleccionados por un jurado internacional. La exposición, que estará abierta hasta el 15 de noviembre, ya ha sido catalogada como 'un diálogo entre la herencia cultural y las nuevas expresiones artísticas' por la crítica especializada.<br><br>"
+            String cuerpoArte = "El Centro Cultural Borges inauguró anoche 'Raíces Contemporáneas', una impactante muestra que reúne el trabajo de 15 talentos locales seleccionados por un jurado internacional. La exposición, que estará abierta hasta el 15 de noviembre, ya ha sido catalogada como 'un diálogo entre la herencia cultural y las nuevas expresiones artísticas' por la crítica especializada.<br><br>"
     + "<b>Lo más destacado de la muestra:</b><br>"
     + "🎨 <b>Instalación 'Memoria Viva' de Valeria Sosa:</b><br>"
     + "Combina bordado tradicional con proyecciones holográficas<br>"
@@ -99,7 +99,7 @@ public class PortalApplication {
     + "Será donado al hospital pediátrico<br><br>"
     + "<b>Datos clave:</b><br>"
     + "📅 <i>Hasta el 15/11</i> | 🕒 Martes a domingo de 15 a 21 hs<br>"
-    + "📍 Sala Principal del Centro Cultural (Av. Libertad 123)<br>"
+    + "📍 Sala Principal del Centro Cultural Borges (Viamonte 525, CABA)<br>"
     + "🎟️ Entrada libre con reserva previa en cultura.municipio.com<br><br>"
     + "<b>Declaraciones:</b><br>"
     + "'Esta exposición demuestra que nuestra ciudad es un semillero de artistas que reinventan nuestra identidad', destacó el Secretario de Cultura, Luciano Morales, durante la apertura que contó con más de 300 asistentes.<br><br>"
@@ -163,6 +163,10 @@ public class PortalApplication {
                     Foto.builder()
                         .url("https://images.unsplash.com/photo-1621629057099-c7cf1fb8ca1e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
                         .descripcion("Mercado financiero")
+                        .build(),
+                    Foto.builder()
+                        .url("https://plus.unsplash.com/premium_photo-1661609098718-3408828713ba?q=80&w=1481&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+                        .descripcion("Mercado financiero")
                         .build()
                 ))
                 .build(),
@@ -177,7 +181,15 @@ public class PortalApplication {
                 .fotos(List.of(
                     Foto.builder()
                         .url("https://images.unsplash.com/photo-1596727362302-b8d891c42ab8?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
-                        .descripcion("Maratón 2024")
+                        .descripcion("Maratón 2025")
+                        .build(),
+                    Foto.builder()
+                        .url("https://plus.unsplash.com/premium_photo-1663090417989-b399378d45ac?q=80&w=1483&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+                        .descripcion("Maratón 2025")
+                        .build(),
+                    Foto.builder()
+                        .url("https://plus.unsplash.com/premium_photo-1663134239842-c85a7bc2ae78?q=80&w=1518&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+                        .descripcion("Maratón 2025")
                         .build()
                 ))
                 .ubicacion(Ubicacion.builder().direccion(" Av. Infanta Isabel 110, caba").latitud(-34.57333333).longitud(-58.41472222).build())
@@ -197,6 +209,7 @@ public class PortalApplication {
                         .descripcion("Obras de artistas locales")
                         .build()
                 ))
+                .ubicacion(Ubicacion.builder().direccion(" Viamonte 525, caba").latitud(-34.599801).longitud(-58.374699).build())
                 .build(),
 
             Noticia.builder()
@@ -209,6 +222,10 @@ public class PortalApplication {
                 .fotos(List.of(
                     Foto.builder()
                         .url("https://images.unsplash.com/photo-1578307985320-34b61a66c195?q=80&w=2078&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+                        .descripcion("Centro de vacunación")
+                        .build(),
+                    Foto.builder()
+                        .url("https://images.unsplash.com/photo-1576765974004-1fcdcab09015?q=80&w=1478&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
                         .descripcion("Centro de vacunación")
                         .build()
                 ))
